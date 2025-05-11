@@ -1,0 +1,164 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-card {
+  background: rgba(40, 40, 70, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border-radius: 20px;
+  padding: 40px 32px 32px 32px;
+  min-width: 350px;
+  max-width: 90vw;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.auth-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+  letter-spacing: 1px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  border: 1.5px solid #ffffff22;
+  padding: 0 12px;
+  transition: border 0.2s;
+}
+
+.input-icon:focus-within {
+  border: 1.5px solid #a18cd1;
+}
+
+.input-icon .icon {
+  font-size: 1.2rem;
+  color: #bdbdbd;
+  margin-right: 8px;
+}
+
+.input-icon input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
+  padding: 14px 0;
+  flex: 1;
+}
+
+.input-icon input::placeholder {
+  color: #bdbdbd;
+  opacity: 1;
+}
+
+.main-btn {
+  width: 100%;
+  padding: 14px 0;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px 0 rgba(102,126,234,0.15);
+  transition: background 0.2s, transform 0.1s;
+}
+
+.main-btn:hover {
+  background: linear-gradient(90deg, #5a67d8 0%, #6b21a8 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+
+.logout-btn {
+  background: linear-gradient(90deg, #f857a6 0%, #ff5858 100%);
+}
+
+.logout-btn:hover {
+  background: linear-gradient(90deg, #e94057 0%, #f27121 100%);
+}
+
+.switch-link {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 1rem;
+}
+
+.switch-link button {
+  background: none;
+  border: none;
+  color: #a18cd1;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 4px;
+  transition: color 0.2s;
+}
+
+.switch-link button:hover {
+  color: #fff;
+}
+
+.msg {
+  padding: 10px 0;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.msg.error {
+  background: #ffe5e5cc;
+  color: #e53e3e;
+}
+
+.msg.success {
+  background: #e6ffedcc;
+  color: #38a169;
+}
+
+.user-email {
+  color: #a18cd1;
+  margin-bottom: 24px;
+  text-align: center;
+  font-size: 1.1rem;
+} 

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supabase-realtime
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: supabase-realtime
+  template:
+    metadata:
+      labels:
+        app: supabase-realtime
+    spec:
+      containers:
+      - name: realtime
+        image: supabase/realtime:v2.34.47
+        ports:
+        - containerPort: 4000
+        envFrom:
+        - configMapRef:
+            name: supabase-config
+        - secretRef:
+            name: supabase-secrets
+        env:
+        - name: DB_HOST
+          value: supabase-db
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: postgres
+        - name: DB_USER
+          value: postgres
+        - name: DB_PASSWORD
+          valueFrom:
+              secretKeyRef:
+                name: supabase-secrets
+                key: POSTGRES_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supabase-realtime
+spec:
+  selector:
+    app: supabase-realtime
+  ports:
+  - port: 4000
+    targetPort: 4000
+  type: ClusterIP 

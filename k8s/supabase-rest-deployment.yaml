@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supabase-rest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: supabase-rest
+  template:
+    metadata:
+      labels:
+        app: supabase-rest
+    spec:
+      containers:
+      - name: rest
+        image: postgrest/postgrest:v12.2.11
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: supabase-config
+        - secretRef:
+            name: supabase-secrets
+        env:
+        - name: PGRST_DB_URI
+          value: "postgres://authenticator:$(POSTGRES_PASSWORD)@supabase-db:5432/postgres"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supabase-rest
+spec:
+  selector:
+    app: supabase-rest
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: ClusterIP 

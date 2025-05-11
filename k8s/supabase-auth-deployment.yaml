@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supabase-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: supabase-auth
+  template:
+    metadata:
+      labels:
+        app: supabase-auth
+    spec:
+      containers:
+      - name: auth
+        image: supabase/gotrue:v2.171.0
+        ports:
+        - containerPort: 9999
+        envFrom:
+        - configMapRef:
+            name: supabase-config
+        - secretRef:
+            name: supabase-secrets
+        env:
+        - name: GOTRUE_DB_DATABASE_URL
+          value: "postgres://supabase_auth_admin:$(POSTGRES_PASSWORD)@supabase-db:5432/postgres"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supabase-auth
+spec:
+  selector:
+    app: supabase-auth
+  ports:
+  - port: 9999
+    targetPort: 9999
+  type: ClusterIP 

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supabase-studio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: supabase-studio
+  template:
+    metadata:
+      labels:
+        app: supabase-studio
+    spec:
+      containers:
+      - name: studio
+        image: supabase/studio:2025.04.21-sha-173cc56
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: supabase-config
+        - secretRef:
+            name: supabase-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supabase-studio
+spec:
+  selector:
+    app: supabase-studio
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: ClusterIP 

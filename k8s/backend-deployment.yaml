@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: sinexo/auth-service:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: SUPABASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: supabase_url
+        - name: SUPABASE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: supabase_key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: ClusterIP 

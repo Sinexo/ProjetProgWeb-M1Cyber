@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supabase-kong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: supabase-kong
+  template:
+    metadata:
+      labels:
+        app: supabase-kong
+    spec:
+      containers:
+      - name: kong
+        image: kong:2.8.1
+        ports:
+        - containerPort: 8000
+        - containerPort: 8443
+        envFrom:
+        - configMapRef:
+            name: supabase-config
+        - secretRef:
+            name: supabase-secrets
+        volumeMounts:
+        - name: kong-config
+          mountPath: /home/kong/kong.yml
+          subPath: kong.yml
+      volumes:
+      - name: kong-config
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supabase-kong
+spec:
+  selector:
+    app: supabase-kong
+  ports:
+  - port: 8000
+    targetPort: 8000
+  - port: 8443
+    targetPort: 8443
+  type: ClusterIP 

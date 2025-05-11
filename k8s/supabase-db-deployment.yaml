@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supabase-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: supabase-db
+  template:
+    metadata:
+      labels:
+        app: supabase-db
+    spec:
+      containers:
+      - name: db
+        image: postgres:15
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: supabase-config
+              key: POSTGRES_DB
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: supabase-secrets
+              key: POSTGRES_PASSWORD
+        volumeMounts:
+        - name: db-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: db-data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: supabase-db
+spec:
+  selector:
+    app: supabase-db
+  ports:
+  - port: 5432
+    targetPort: 5432
+  type: ClusterIP 
